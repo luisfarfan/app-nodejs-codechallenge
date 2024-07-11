@@ -1,0 +1,24 @@
+{
+  "name": "yape",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/yape/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "yape:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "yape:build:development"
+        },
+        "production": {
+          "buildTarget": "yape:build:production"
+        }
+      }
+    }
+  }
+}
