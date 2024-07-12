@@ -1,5 +1,5 @@
-import { Transaction } from '../../entities/transaction.entity';
-import { TransactionResponseDto } from '../dto/transaction-response.dto';
+import { Transaction } from '../infraestructure/entities/transaction.entity';
+import { TransactionResponseDto } from '../application/dto/transaction-response.dto';
 
 export class TransactionMapper {
   static toRetrieveResponseDto(

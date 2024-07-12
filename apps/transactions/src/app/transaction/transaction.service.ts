@@ -1,6 +1,6 @@
 import { TransactionRepository } from './infraestructure/repository/transaction.repository';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { TransactionResponseDto } from './dto/transaction-response.dto';
+import { CreateTransactionDto } from './application/dto/create-transaction.dto';
+import { TransactionResponseDto } from './application/dto/transaction-response.dto';
 import { TransactionStatusEnum } from './enums/transaction-status.enum';
 import { TransactionMapper } from './mappers/transaction.mapper';
 import { Injectable } from '@nestjs/common';

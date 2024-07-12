@@ -8,11 +8,11 @@ import {
   Put,
 } from '@nestjs/common';
 import { TransactionsService } from './transaction.service';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { TransactionResponseDto } from './dto/transaction-response.dto';
+import { CreateTransactionDto } from './application/dto/create-transaction.dto';
+import { TransactionResponseDto } from './application/dto/transaction-response.dto';
 import { KafkaService } from '../infraestructure/kafka/kafka.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { FraudStatusUpdateDto } from './dto/fraud-status-update.dto';
+import { FraudStatusUpdateDto } from './application/dto/fraud-status-update.dto';
 
 @Controller('transaction')
 export class TransactionController {

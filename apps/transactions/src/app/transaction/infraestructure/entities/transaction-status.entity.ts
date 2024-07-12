@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { Transaction } from './transaction.entity';
-import { TransactionStatusEnum } from '../transaction/enums/transaction-status.enum';
+import { TransactionStatusEnum } from '../../enums/transaction-status.enum';
 
 @Entity()
 export class TransactionStatus {

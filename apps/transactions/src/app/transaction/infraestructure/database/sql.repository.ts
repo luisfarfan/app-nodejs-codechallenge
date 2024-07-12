@@ -1,14 +1,14 @@
+import { ITransactionRepository } from '../../domain/repositories/transaction-repository.interface';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Transaction } from '../entities/transaction.entity';
 import { Repository } from 'typeorm';
-import { Transaction } from '../../../entities/transaction.entity';
-import { TransactionStatus } from '../../../entities/transaction-status.entity';
-import { CreateTransactionDto } from '../../dto/create-transaction.dto';
+import { TransactionStatus } from '../entities/transaction-status.entity';
+import { CreateTransactionDto } from '../../application/dto/create-transaction.dto';
 import { TransactionStatusEnum } from '../../enums/transaction-status.enum';
-import { TransactionRepositoryAdapter } from '../adapters/transaction-repository.adapter';
 
 @Injectable()
-export class TransactionRepository implements TransactionRepositoryAdapter {
+export class SqlRepository implements ITransactionRepository {
   constructor(
     @InjectRepository(Transaction)
     private readonly transactionsRepository: Repository<Transaction>,
@@ -37,7 +37,7 @@ export class TransactionRepository implements TransactionRepositoryAdapter {
     return savedTransaction;
   }
 
-  async findOne(id: string): Promise<Transaction> {
+  async getById(id: string): Promise<Transaction> {
     const transaction = await this.transactionsRepository.findOne({
       where: {
         id,
@@ -68,6 +68,6 @@ export class TransactionRepository implements TransactionRepositoryAdapter {
     });
     await this.transactionStatusRepository.save(newStatus);
 
-    return this.findOne(transactionId);
+    return this.getById(transactionId);
   }
 }
