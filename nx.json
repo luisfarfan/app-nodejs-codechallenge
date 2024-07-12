@@ -35,9 +35,7 @@
         "targetName": "test"
       },
       "exclude": [
-        "apps/yape-e2e/**/*",
-        "apps/transactions-e2e/**/*",
-        "apps/anti-fraud-e2e/**/*"
+
       ]
     }
   ]
