@@ -12,6 +12,7 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { TransactionResponseDto } from './dto/transaction-response.dto';
 import { KafkaService } from '../infraestructure/kafka/kafka.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { FraudStatusUpdateDto } from './dto/fraud-status-update.dto';
 
 @Controller('transaction')
 export class TransactionController {
@@ -32,16 +33,11 @@ export class TransactionController {
   }
 
   @MessagePattern('transaction-validated')
-  handleTransactionUpdated(@Payload() message: any) {
-    console.log('Transaction updated from TRANSACTION', message);
+  async handleTransactionUpdated(@Payload() message: any) {
+    console.log('Transaction validated MESSAGE', message);
+    await this.transactionsService.updateStatus(
+      message.transactionId,
+      message.status
+    );
   }
-
-  // @Put(':id')
-  // async updateStatus(
-  //   @Param('id') id: string,
-  //   @Body() updateStatusDto: TransactionStatusDto
-  // ): Promise<TransactionResponseDto> {
-  //   const { status } = updateStatusDto;
-  //   return this.transactionsService.updateStatus(id, status as TransactionStatus);
-  // }
 }
