@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TransactionModule } from './transaction/transaction.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { KafkaService } from './infraestructure/kafka/kafka.service';
+import { KafkaService } from './kafka/kafka.service';
 
 @Module({
   imports: [

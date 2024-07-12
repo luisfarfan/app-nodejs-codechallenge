@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TransactionController } from './transaction.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Transaction } from './infraestructure/entities/transaction.entity';
-import { TransactionStatus } from './infraestructure/entities/transaction-status.entity';
-import { KafkaModule } from '../infraestructure/kafka/kafka.module';
+import { TransactionEntity } from './infraestructure/entities/transaction.entity';
+import { TransactionStatusEntity } from './infraestructure/entities/transaction-status.entity';
+import { KafkaModule } from '../kafka/kafka.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { OrmTransactionSqlRepository } from './infraestructure/database/orm-transaction-sql.repository';
 import { CreateTransactionHandler } from './application/handlers/create-transaction.handler';
@@ -14,7 +14,7 @@ import { GetTransactionHandler } from './application/handlers/get-transaction.ha
   imports: [
     KafkaModule,
     CqrsModule,
-    TypeOrmModule.forFeature([Transaction, TransactionStatus]),
+    TypeOrmModule.forFeature([TransactionEntity, TransactionStatusEntity]),
   ],
   controllers: [TransactionController],
   providers: [

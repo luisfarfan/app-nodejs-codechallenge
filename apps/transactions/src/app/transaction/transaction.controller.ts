@@ -43,11 +43,10 @@ export class TransactionController {
 
   @MessagePattern('transaction-validated')
   async handleTransactionUpdated(@Payload() message: FraudStatusUpdateDto) {
-    console.log('Transaction validated MESSAGE', message);
     const query = new UpdateTransactionStatusCommand(
       message.transactionId,
       message.status
     );
-    await this.queryBus.execute(query);
+    await this.commandBus.execute(query);
   }
 }

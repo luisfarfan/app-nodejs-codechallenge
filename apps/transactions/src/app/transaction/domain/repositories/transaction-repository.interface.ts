@@ -1,6 +1,6 @@
 import { CreateTransactionDto } from '../../application/dto/create-transaction.dto';
-import { Transaction } from '../../infraestructure/entities/transaction.entity';
 import { TransactionStatusEnum } from '../../enums/transaction-status.enum';
+import { Transaction } from '../aggregates/transaction';
 
 export interface ITransactionRepository {
   create(createTransactionDto: CreateTransactionDto): Promise<Transaction>;

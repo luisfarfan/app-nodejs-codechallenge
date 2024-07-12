@@ -5,16 +5,18 @@ import {
   ManyToOne,
   CreateDateColumn,
 } from 'typeorm';
-import { Transaction } from './transaction.entity';
+import { TransactionEntity } from './transaction.entity';
 import { TransactionStatusEnum } from '../../enums/transaction-status.enum';
 
-@Entity()
-export class TransactionStatus {
+@Entity({
+  name: 'transaction_statuses',
+})
+export class TransactionStatusEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Transaction, (transaction) => transaction.statuses)
-  transaction: Transaction;
+  @ManyToOne(() => TransactionEntity, (transaction) => transaction.statuses)
+  transaction: TransactionEntity;
 
   @Column({ type: 'uuid' })
   transactionId: string;

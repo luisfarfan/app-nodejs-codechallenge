@@ -1,0 +1,3 @@
+export default {
+  TRANSACTION_SERVICE: 'TRANSACTION_SERVICE',
+};

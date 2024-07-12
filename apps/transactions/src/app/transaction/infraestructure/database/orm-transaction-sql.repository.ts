@@ -1,25 +1,25 @@
 import { ITransactionRepository } from '../../domain/repositories/transaction-repository.interface';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Transaction } from '../entities/transaction.entity';
+import { TransactionEntity } from '../entities/transaction.entity';
 import { Repository } from 'typeorm';
-import { TransactionStatus } from '../entities/transaction-status.entity';
+import { TransactionStatusEntity } from '../entities/transaction-status.entity';
 import { CreateTransactionDto } from '../../application/dto/create-transaction.dto';
 import { TransactionStatusEnum } from '../../enums/transaction-status.enum';
+import { Transaction } from '../../domain/aggregates/transaction';
 
 @Injectable()
 export class OrmTransactionSqlRepository implements ITransactionRepository {
   constructor(
-    @InjectRepository(Transaction)
-    private readonly transactionsRepository: Repository<Transaction>,
-    @InjectRepository(TransactionStatus)
-    private readonly transactionStatusRepository: Repository<TransactionStatus>
+    @InjectRepository(TransactionEntity)
+    private readonly transactionsRepository: Repository<TransactionEntity>,
+    @InjectRepository(TransactionStatusEntity)
+    private readonly transactionStatusRepository: Repository<TransactionStatusEntity>
   ) {}
 
   async create(
     createTransactionDto: CreateTransactionDto
   ): Promise<Transaction> {
-    console.log('createTransactionDto', createTransactionDto);
     const transaction = this.transactionsRepository.create({
       ...createTransactionDto,
     });
@@ -35,7 +35,13 @@ export class OrmTransactionSqlRepository implements ITransactionRepository {
 
     savedTransaction.lastStatus = initialTransactionStatus;
 
-    return savedTransaction;
+    return new Transaction({
+      transactionExternalId: savedTransaction.id,
+      transactionType: savedTransaction.transferTypeId,
+      transactionStatus: savedTransaction.lastStatus.status,
+      value: savedTransaction.value,
+      createdAt: savedTransaction.createdAt,
+    });
   }
 
   async getById(id: string): Promise<Transaction> {
@@ -46,12 +52,18 @@ export class OrmTransactionSqlRepository implements ITransactionRepository {
     });
     transaction.lastStatus = await this.getLastTransactionStatus(id);
 
-    return transaction;
+    return new Transaction({
+      transactionExternalId: transaction.id,
+      transactionType: transaction.transferTypeId,
+      transactionStatus: transaction.lastStatus.status,
+      value: transaction.value,
+      createdAt: transaction.createdAt,
+    });
   }
 
   async getLastTransactionStatus(
     transactionId: string
-  ): Promise<TransactionStatus> {
+  ): Promise<TransactionStatusEntity> {
     return this.transactionStatusRepository
       .createQueryBuilder('status')
       .where('status.transactionId = :transactionId', { transactionId })

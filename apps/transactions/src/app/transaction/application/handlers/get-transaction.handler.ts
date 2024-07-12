@@ -2,7 +2,8 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetTransactionQuery } from '../queries/get-transaction.query';
 import { Inject } from '@nestjs/common';
 import { ITransactionRepository } from '../../domain/repositories/transaction-repository.interface';
-import { Transaction } from '../../infraestructure/entities/transaction.entity';
+import { TransactionEntity } from '../../infraestructure/entities/transaction.entity';
+import { Transaction } from '../../domain/aggregates/transaction';
 
 @QueryHandler(GetTransactionQuery)
 export class GetTransactionHandler

@@ -1,9 +1,9 @@
-import { Transaction } from '../infraestructure/entities/transaction.entity';
+import { TransactionEntity } from '../infraestructure/entities/transaction.entity';
 import { TransactionResponseDto } from '../application/dto/transaction-response.dto';
 
 export class TransactionMapper {
   static toRetrieveResponseDto(
-    transaction: Transaction
+    transaction: TransactionEntity
   ): TransactionResponseDto {
     return {
       transactionExternalId: transaction.id,

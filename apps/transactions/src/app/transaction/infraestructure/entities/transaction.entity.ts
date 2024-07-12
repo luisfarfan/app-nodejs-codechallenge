@@ -5,11 +5,13 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { TransactionStatus } from './transaction-status.entity';
+import { TransactionStatusEntity } from './transaction-status.entity';
 import { Exclude, Expose } from 'class-transformer';
 
-@Entity()
-export class Transaction {
+@Entity({
+  name: 'transactions',
+})
+export class TransactionEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -25,21 +27,21 @@ export class Transaction {
   @Column('decimal')
   value: number;
 
-  @OneToMany(() => TransactionStatus, (status) => status.transaction)
-  statuses: TransactionStatus[];
+  @OneToMany(() => TransactionStatusEntity, (status) => status.transaction)
+  statuses: TransactionStatusEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
 
   @Exclude()
-  private _lastStatus?: TransactionStatus;
+  private _lastStatus?: TransactionStatusEntity;
 
   @Expose()
-  get lastStatus(): TransactionStatus {
+  get lastStatus(): TransactionStatusEntity {
     return this._lastStatus;
   }
 
-  set lastStatus(status: TransactionStatus) {
+  set lastStatus(status: TransactionStatusEntity) {
     this._lastStatus = status;
   }
 }

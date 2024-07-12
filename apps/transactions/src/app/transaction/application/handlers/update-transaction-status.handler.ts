@@ -2,7 +2,8 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { UpdateTransactionStatusCommand } from '../commands/update-transaction-status.command';
 import { ITransactionRepository } from '../../domain/repositories/transaction-repository.interface';
 import { Inject } from '@nestjs/common';
-import { Transaction } from '../../infraestructure/entities/transaction.entity';
+import { TransactionEntity } from '../../infraestructure/entities/transaction.entity';
+import { Transaction } from '../../domain/aggregates/transaction';
 
 @CommandHandler(UpdateTransactionStatusCommand)
 export class UpdateTransactionStatusHandler
