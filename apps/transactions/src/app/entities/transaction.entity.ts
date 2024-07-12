@@ -6,6 +6,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { TransactionStatus } from './transaction-status.entity';
+import { Exclude, Expose } from 'class-transformer';
 
 @Entity()
 export class Transaction {
@@ -29,4 +30,16 @@ export class Transaction {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @Exclude()
+  private _lastStatus?: TransactionStatus;
+
+  @Expose()
+  get lastStatus(): TransactionStatus {
+    return this._lastStatus;
+  }
+
+  set lastStatus(status: TransactionStatus) {
+    this._lastStatus = status;
+  }
 }

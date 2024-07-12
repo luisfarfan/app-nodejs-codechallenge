@@ -16,6 +16,9 @@ export class TransactionStatus {
   @ManyToOne(() => Transaction, (transaction) => transaction.statuses)
   transaction: Transaction;
 
+  @Column({ type: 'uuid' })
+  transactionId: string;
+
   @Column({ type: 'enum', enum: TransactionStatusEnum })
   status: TransactionStatusEnum;
 
