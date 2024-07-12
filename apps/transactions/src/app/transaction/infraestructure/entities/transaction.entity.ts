@@ -20,7 +20,7 @@ export class Transaction {
   accountExternalIdCredit: string;
 
   @Column()
-  tranferTypeId: number;
+  transferTypeId: number;
 
   @Column('decimal')
   value: number;

@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TransactionController } from './transaction.controller';
-import { TransactionsService } from './transaction.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Transaction } from './infraestructure/entities/transaction.entity';
 import { TransactionStatus } from './infraestructure/entities/transaction-status.entity';
 import { KafkaModule } from '../infraestructure/kafka/kafka.module';
 import { CqrsModule } from '@nestjs/cqrs';
-import { SqlRepository } from './infraestructure/database/sql.repository';
+import { OrmTransactionSqlRepository } from './infraestructure/database/orm-transaction-sql.repository';
+import { CreateTransactionHandler } from './application/handlers/create-transaction.handler';
+import { UpdateTransactionStatusHandler } from './application/handlers/update-transaction-status.handler';
+import { GetTransactionHandler } from './application/handlers/get-transaction.handler';
 
 @Module({
   imports: [
@@ -16,10 +18,12 @@ import { SqlRepository } from './infraestructure/database/sql.repository';
   ],
   controllers: [TransactionController],
   providers: [
-    TransactionsService,
+    CreateTransactionHandler,
+    UpdateTransactionStatusHandler,
+    GetTransactionHandler,
     {
-      provide: 'TransactionRepository',
-      useClass: SqlRepository,
+      provide: 'ITransactionRepository',
+      useClass: OrmTransactionSqlRepository,
     },
   ],
 })

@@ -8,7 +8,7 @@ import { CreateTransactionDto } from '../../application/dto/create-transaction.d
 import { TransactionStatusEnum } from '../../enums/transaction-status.enum';
 
 @Injectable()
-export class SqlRepository implements ITransactionRepository {
+export class OrmTransactionSqlRepository implements ITransactionRepository {
   constructor(
     @InjectRepository(Transaction)
     private readonly transactionsRepository: Repository<Transaction>,
@@ -19,6 +19,7 @@ export class SqlRepository implements ITransactionRepository {
   async create(
     createTransactionDto: CreateTransactionDto
   ): Promise<Transaction> {
+    console.log('createTransactionDto', createTransactionDto);
     const transaction = this.transactionsRepository.create({
       ...createTransactionDto,
     });

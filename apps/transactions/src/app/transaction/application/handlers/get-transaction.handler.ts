@@ -9,7 +9,7 @@ export class GetTransactionHandler
   implements IQueryHandler<GetTransactionQuery>
 {
   constructor(
-    @Inject('TransactionRepository')
+    @Inject('ITransactionRepository')
     private readonly transactionRepository: ITransactionRepository
   ) {}
 

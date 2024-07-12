@@ -9,7 +9,7 @@ export class UpdateTransactionStatusHandler
   implements ICommandHandler<UpdateTransactionStatusCommand>
 {
   constructor(
-    @Inject('TransactionRepository')
+    @Inject('ITransactionRepository')
     private readonly transactionRepository: ITransactionRepository
   ) {}
 
