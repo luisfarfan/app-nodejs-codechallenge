@@ -1,5 +1,5 @@
 import { CreateTransactionDto } from '../../dto/create-transaction.dto';
-import { Transaction } from '../../entities/transaction.entity';
+import { Transaction } from '../../../entities/transaction.entity';
 
 export interface TransactionRepositoryAdapter {
   create(createTransactionDto: CreateTransactionDto): Promise<Transaction>;

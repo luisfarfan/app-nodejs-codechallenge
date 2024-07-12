@@ -1,8 +1,8 @@
-import { TransactionRepository } from './infraestructure/repository/transaction.repository';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { TransactionResponseDto } from './dto/transaction-response.dto';
-import { TransactionStatusEnum } from './enums/transaction-status.enum';
-import { TransactionMapper } from './mappers/transaction.mapper';
+import { TransactionRepository } from './transaction/infraestructure/repository/transaction.repository';
+import { CreateTransactionDto } from './transaction/dto/create-transaction.dto';
+import { TransactionResponseDto } from './transaction/dto/transaction-response.dto';
+import { TransactionStatusEnum } from './transaction/enums/transaction-status.enum';
+import { TransactionMapper } from './transaction/mappers/transaction.mapper';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class TransactionsService {
       createTransactionDto
     );
 
-    return await this.findById(createdTransaction.id);
+    return TransactionMapper.toRetrieveResponseDto(createdTransaction);
   }
 
   async findById(id: string): Promise<TransactionResponseDto> {

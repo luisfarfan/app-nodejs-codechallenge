@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Transaction } from '../../entities/transaction.entity';
-import { TransactionStatus } from '../../entities/transaction-status.entity';
+import { Transaction } from '../../../entities/transaction.entity';
+import { TransactionStatus } from '../../../entities/transaction-status.entity';
 import { CreateTransactionDto } from '../../dto/create-transaction.dto';
 import { TransactionStatusEnum } from '../../enums/transaction-status.enum';
 import { TransactionRepositoryAdapter } from '../adapters/transaction-repository.adapter';
@@ -31,6 +31,8 @@ export class TransactionRepository implements TransactionRepositoryAdapter {
       status: TransactionStatusEnum.PENDING,
     });
     await this.transactionStatusRepository.save(initialTransactionStatus);
+
+    savedTransaction.lastStatus = initialTransactionStatus;
 
     return savedTransaction;
   }

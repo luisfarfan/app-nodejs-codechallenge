@@ -1,4 +1,4 @@
-import { Transaction } from '../entities/transaction.entity';
+import { Transaction } from '../../entities/transaction.entity';
 import { TransactionResponseDto } from '../dto/transaction-response.dto';
 
 export class TransactionMapper {
