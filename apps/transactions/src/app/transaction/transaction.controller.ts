@@ -1,12 +1,24 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { TransactionsService } from '../transaction.service';
+import {
+  Body,
+  Controller,
+  Get,
+  OnModuleInit,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { TransactionsService } from './transaction.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { TransactionResponseDto } from './dto/transaction-response.dto';
+import { KafkaService } from '../infraestructure/kafka/kafka.service';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('transaction')
 export class TransactionController {
-  constructor(private readonly transactionsService: TransactionsService) {}
-
+  constructor(
+    private readonly transactionsService: TransactionsService,
+    private kafkaService: KafkaService
+  ) {}
   @Post()
   async create(
     @Body() createTransactionDto: CreateTransactionDto
@@ -17,6 +29,11 @@ export class TransactionController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<TransactionResponseDto> {
     return this.transactionsService.findById(id);
+  }
+
+  @MessagePattern('transaction-validated')
+  handleTransactionUpdated(@Payload() message: any) {
+    console.log('Transaction updated from TRANSACTION', message);
   }
 
   // @Put(':id')

@@ -1,13 +1,17 @@
-import { TransactionRepository } from './transaction/infraestructure/repository/transaction.repository';
-import { CreateTransactionDto } from './transaction/dto/create-transaction.dto';
-import { TransactionResponseDto } from './transaction/dto/transaction-response.dto';
-import { TransactionStatusEnum } from './transaction/enums/transaction-status.enum';
-import { TransactionMapper } from './transaction/mappers/transaction.mapper';
+import { TransactionRepository } from './infraestructure/repository/transaction.repository';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { TransactionResponseDto } from './dto/transaction-response.dto';
+import { TransactionStatusEnum } from './enums/transaction-status.enum';
+import { TransactionMapper } from './mappers/transaction.mapper';
 import { Injectable } from '@nestjs/common';
+import { KafkaService } from '../infraestructure/kafka/kafka.service';
 
 @Injectable()
 export class TransactionsService {
-  constructor(private readonly transactionRepository: TransactionRepository) {}
+  constructor(
+    private readonly transactionRepository: TransactionRepository,
+    private readonly kafkaService: KafkaService
+  ) {}
 
   async create(
     createTransactionDto: CreateTransactionDto
@@ -15,6 +19,10 @@ export class TransactionsService {
     const createdTransaction = await this.transactionRepository.create(
       createTransactionDto
     );
+
+    this.kafkaService
+      .sendMessage('transaction-created', createdTransaction)
+      .subscribe();
 
     return TransactionMapper.toRetrieveResponseDto(createdTransaction);
   }
