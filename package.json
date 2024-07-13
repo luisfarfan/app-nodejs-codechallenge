@@ -2,7 +2,9 @@
   "name": "@yape/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "node node_modules/.bin/nx run-many --target=serve --projects=anti-fraud,transactions --parallel"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^10.0.2",
@@ -11,6 +13,7 @@
     "@nestjs/cqrs": "^10.2.7",
     "@nestjs/microservices": "^10.3.10",
     "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/swagger": "^7.4.0",
     "@nestjs/typeorm": "^10.0.2",
     "axios": "^1.6.0",
     "class-transformer": "^0.5.1",
@@ -19,6 +22,7 @@
     "pg": "^8.12.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
+    "swagger-ui-express": "^5.0.1",
     "tslib": "^2.3.0",
     "typeorm": "^0.3.20"
   },

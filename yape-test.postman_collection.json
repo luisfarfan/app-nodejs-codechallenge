@@ -1,0 +1,47 @@
+{
+	"info": {
+		"_postman_id": "18e455cb-689b-43ed-890b-fe15522fe76f",
+		"name": "yape-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "2778042",
+		"_collection_link": "https://interstellar-moon-826347.postman.co/workspace/SIPTEL~55574c76-c90f-426f-85b1-333e835a7ba2/collection/2778042-18e455cb-689b-43ed-890b-fe15522fe76f?action=share&source=collection_link&creator=2778042"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3000/api/transaction/31da9340-cdda-4f49-b123-e7b3c4fef22d",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"accountExternalIdDebit\": \"a8098c1a-f86e-11da-bd1a-00112444be1e\",\n  \"accountExternalIdCredit\": \"b3bbd9e8-f86e-11da-bd1a-00112444be1e\",\n  \"transferTypeId\": 1,\n  \"value\": 1002\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/api/transaction"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/api/transaction/31da9340-cdda-4f49-b123-e7b3c4fef22d Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"accountExternalIdDebit\": \"a8098c1a-f86e-11da-bd1a-00112444be1e\",\n  \"accountExternalIdCredit\": \"b3bbd9e8-f86e-11da-bd1a-00112444be1e\",\n  \"transferTypeId\": 1,\n  \"value\": 1002\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/api/transaction/31da9340-cdda-4f49-b123-e7b3c4fef22d"
+			},
+			"response": []
+		}
+	]
+}
