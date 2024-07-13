@@ -1,10 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
+import KafkaConfig from '../config/kafka.config';
 
 @Injectable()
 export class KafkaService {
-  constructor(@Inject('ANTIFRAUD_SERVICE') private clientKafka: ClientKafka) {}
+  constructor(
+    @Inject(KafkaConfig.ANTIFRAUD_SERVICE) private clientKafka: ClientKafka
+  ) {}
 
   sendMessage<T>(topic: string, message: T): Observable<void> {
     const serializedMessage = JSON.stringify(message);

@@ -1,37 +1,31 @@
-import { Controller, OnModuleInit } from '@nestjs/common';
-import { KafkaService } from './infraestructure/kafka/kafka.service';
+import { Controller } from '@nestjs/common';
 import { AntiFraudService } from './application/anti-fraud.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
+import { KafkaService } from './kafka/kafka.service';
+import KafkaConfig from './config/kafka.config';
 
 @Controller()
-export class AppController implements OnModuleInit {
+export class AppController {
   constructor(
     private readonly kafkaService: KafkaService,
     private antiFraudService: AntiFraudService
   ) {}
 
-  async onModuleInit() {
-    // await this.kafkaService.connect();
-  }
-
-  @MessagePattern('transaction-created')
+  @MessagePattern(KafkaConfig.TRANSACTION_CREATED)
   async handleTransactionCreated(@Payload() message: any) {
-    console.log('Transaction created MESSAGE', message, typeof message);
-    const { value, id } = message;
+    const { value, transactionExternalId } = message;
     const isFraud = await firstValueFrom(
       this.antiFraudService.validateTransaction(value)
     );
 
-    console.log('VALUE AND ID', value, id);
-
     const response = {
-      transactionId: id,
+      transactionId: transactionExternalId,
       status: isFraud ? 'rejected' : 'approved',
     };
 
     this.kafkaService
-      .sendMessage('transaction-validated', response)
+      .sendMessage(KafkaConfig.TRANSACTION_VALIDATED, response)
       .subscribe();
   }
 }

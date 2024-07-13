@@ -7,6 +7,7 @@ import { KafkaService } from '../../../kafka/kafka.service';
 import { Transaction } from '../../domain/aggregates/transaction';
 import { TransactionMapper } from '../../mappers/transaction.mapper';
 import { TransactionResponseDto } from '../dto/transaction-response.dto';
+import KafkaConfig from '../../../config/kafka.config';
 
 @CommandHandler(CreateTransactionCommand)
 export class CreateTransactionHandler
@@ -34,10 +35,13 @@ export class CreateTransactionHandler
       value: amount,
     });
 
+    const transactionResponseDto =
+      TransactionMapper.toRetrieveResponseDto(transaction);
+
     this.kafkaService
-      .sendMessage('transaction-created', transaction)
+      .sendMessage(KafkaConfig.TRANSACTION_CREATED, transactionResponseDto)
       .subscribe();
 
-    return TransactionMapper.toRetrieveResponseDto(transaction);
+    return transactionResponseDto;
   }
 }

@@ -2,22 +2,25 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { KafkaService } from './kafka.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import KafkaConfig from '../config/kafka.config';
 
 @Module({
   imports: [
     ClientsModule.registerAsync([
       {
-        name: 'ANTIFRAUD_SERVICE',
+        name: KafkaConfig.ANTIFRAUD_SERVICE,
         imports: [ConfigModule],
-        useFactory: (configService: ConfigService) => ({
+        useFactory: async (configService: ConfigService) => ({
           transport: Transport.KAFKA,
           options: {
             client: {
-              clientId: 'anti-fraud',
-              brokers: ['localhost:9092'],
+              clientId: configService.get<string>('KAFKA_FRAUD_CLIENT_ID'),
+              brokers: [configService.get<string>('KAFKA_BROKER')],
             },
             consumer: {
-              groupId: 'anti-fraud-consumer',
+              groupId: configService.get<string>(
+                'KAFKA_FRAUD_CONSUMER_GROUP_ID'
+              ),
             },
           },
         }),
@@ -25,6 +28,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       },
     ]),
   ],
+
   providers: [KafkaService],
   exports: [KafkaService],
 })

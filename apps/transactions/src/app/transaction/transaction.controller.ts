@@ -7,6 +7,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GetTransactionQuery } from './application/queries/get-transaction.query';
 import { CreateTransactionCommand } from './application/commands/create-transaction.command';
 import { UpdateTransactionStatusCommand } from './application/commands/update-transaction-status.command';
+import KafkaConfig from '../config/kafka.config';
 
 @Controller('transaction')
 export class TransactionController {
@@ -41,7 +42,7 @@ export class TransactionController {
     return await this.queryBus.execute(query);
   }
 
-  @MessagePattern('transaction-validated')
+  @MessagePattern(KafkaConfig.TRANSACTION_VALIDATED)
   async handleTransactionUpdated(@Payload() message: FraudStatusUpdateDto) {
     const query = new UpdateTransactionStatusCommand(
       message.transactionId,
