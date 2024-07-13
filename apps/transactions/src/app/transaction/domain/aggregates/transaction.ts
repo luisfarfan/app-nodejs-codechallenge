@@ -18,4 +18,24 @@ export class Transaction extends AggregateRoot {
     this.value = transaction.value;
     this.createdAt = transaction.createdAt;
   }
+
+  getTransactionExternalId(): string {
+    return this.transactionExternalId;
+  }
+
+  getTransactionType(): number {
+    return this.transactionType;
+  }
+
+  getTransactionStatus(): TransactionStatusEnum {
+    return this.transactionStatus;
+  }
+
+  getValue(): number {
+    return this.value;
+  }
+
+  getCreatedAt(): Date {
+    return this.createdAt;
+  }
 }

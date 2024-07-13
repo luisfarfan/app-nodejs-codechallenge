@@ -1,16 +1,16 @@
-import { TransactionEntity } from '../infraestructure/entities/transaction.entity';
 import { TransactionResponseDto } from '../application/dto/transaction-response.dto';
+import { Transaction } from '../domain/aggregates/transaction';
 
 export class TransactionMapper {
   static toRetrieveResponseDto(
-    transaction: TransactionEntity
+    transaction: Transaction
   ): TransactionResponseDto {
     return {
-      transactionExternalId: transaction.id,
+      transactionExternalId: transaction.getTransactionExternalId(),
       transactionType: { name: 'transfer' },
-      transactionStatus: { name: transaction.lastStatus.status },
-      value: transaction.value,
-      createdAt: transaction.createdAt.toISOString(),
+      transactionStatus: { name: transaction.getTransactionStatus() },
+      value: transaction.getValue(),
+      createdAt: transaction.getCreatedAt().toISOString(),
     };
   }
 }

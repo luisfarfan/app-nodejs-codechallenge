@@ -2,8 +2,8 @@ import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetTransactionQuery } from '../queries/get-transaction.query';
 import { Inject } from '@nestjs/common';
 import { ITransactionRepository } from '../../domain/repositories/transaction-repository.interface';
-import { TransactionEntity } from '../../infraestructure/entities/transaction.entity';
-import { Transaction } from '../../domain/aggregates/transaction';
+import { TransactionMapper } from '../../mappers/transaction.mapper';
+import { TransactionResponseDto } from '../dto/transaction-response.dto';
 
 @QueryHandler(GetTransactionQuery)
 export class GetTransactionHandler
@@ -14,7 +14,10 @@ export class GetTransactionHandler
     private readonly transactionRepository: ITransactionRepository
   ) {}
 
-  async execute(query: GetTransactionQuery): Promise<Transaction> {
-    return this.transactionRepository.getById(query.transactionId);
+  async execute(query: GetTransactionQuery): Promise<TransactionResponseDto> {
+    const transaction = await this.transactionRepository.getById(
+      query.transactionId
+    );
+    return TransactionMapper.toRetrieveResponseDto(transaction);
   }
 }

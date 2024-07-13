@@ -4,6 +4,8 @@ import { ITransactionRepository } from '../../domain/repositories/transaction-re
 import { Inject } from '@nestjs/common';
 import { TransactionEntity } from '../../infraestructure/entities/transaction.entity';
 import { Transaction } from '../../domain/aggregates/transaction';
+import { TransactionMapper } from '../../mappers/transaction.mapper';
+import { TransactionResponseDto } from '../dto/transaction-response.dto';
 
 @CommandHandler(UpdateTransactionStatusCommand)
 export class UpdateTransactionStatusHandler
@@ -14,8 +16,14 @@ export class UpdateTransactionStatusHandler
     private readonly transactionRepository: ITransactionRepository
   ) {}
 
-  async execute(command: UpdateTransactionStatusCommand): Promise<Transaction> {
+  async execute(
+    command: UpdateTransactionStatusCommand
+  ): Promise<TransactionResponseDto> {
     const { transactionId, status } = command;
-    return await this.transactionRepository.updateStatus(transactionId, status);
+    const transaction = await this.transactionRepository.updateStatus(
+      transactionId,
+      status
+    );
+    return TransactionMapper.toRetrieveResponseDto(transaction);
   }
 }
